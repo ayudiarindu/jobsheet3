@@ -1,6 +1,59 @@
 <?php
 include 'koneksi.php';
 
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start = ($page - 1) * $limit;
+
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search_query = $search ? "WHERE nama_siswa LIKE '%$search%'" : '';
+
+
+$query = "SELECT siswa.*, kelas.nama_kelas, wali_murid.nama_wali FROM siswa
+           LEFT JOIN kelas ON siswa.id_kelas = kelas.id_kelas
+           LEFT JOIN wali_murid ON siswa.id_wali = wali_murid.id_wali
+           $search_query LIMIT $start, $limit";
+$result = mysqli_query($koneksi, $query);
+
+$total_query = "SELECT COUNT(*) AS total FROM siswa $search_query";
+$total_result = mysqli_query($koneksi,$total_query);
+$total_row = mysqli_fetch_assoc($total_result);
+$total = $total_row['total'];
+$total_pages = ceil($total / $limit);
+?>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,0">
+    <title>Data Siswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-3">Data Siswa</h2>
+        <div class="d-flex justify
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $sql = "SELECT siswa.*, id_kelas.nama_kelas, wali_murid.nama_wali FROM siswa
        LEFT JOIN id_kelas ON siswa.id_kelas = id_kelas.id_kelas
        LEFT JOIN wali_murid ON siswa.id_wali = wali_murid.id_wali";
